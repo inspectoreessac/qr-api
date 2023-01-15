@@ -20,9 +20,6 @@ export class Certificate {
   @Column({ name: 'company', type: 'varchar' })
     company: string
 
-  @Column({ name: 'place', type: 'varchar' })
-    place: string
-
   @Column({ name: 'modality', type: 'varchar' })
     modality: string
 
@@ -33,8 +30,5 @@ export class Certificate {
     certification: string
 
   @Column({ name: 'start_date', type: 'datetime' })
-    startDate: Date
-
-  @Column({ name: 'end_date', type: 'datetime' })
-    endDate: Date
+    date: Date
 }

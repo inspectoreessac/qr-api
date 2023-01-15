@@ -94,7 +94,7 @@ export const removeMultiple = async (req: Request, res: Response): Promise<Respo
   }
 }
 
-const SHEET_NAMES = ['PERFIL A ACREDITAR', 'FECHA DE INDUCCIÓN', 'DOCUMENTO DE IDENTIDAD', 'NÚMERO DE DOCUMENTO DE IDENTIDAD', 'NOMBRES', 'APELLIDOS', 'EMPRESA', 'COD. CREDENCIAL', 'VIGENCIA CREDENCIAL', 'FOTOGRAFIA']
+const SHEET_NAMES = ['PERFIL A ACREDITAR', 'FECHA DE INDUCCION', 'DOCUMENTO DE IDENTIDAD', 'NUMERO DE DOCUMENTO DE IDENTIDAD', 'NOMBRES', 'APELLIDOS', 'EMPRESA', 'COD. CREDENCIAL', 'VIGENCIA CREDENCIAL', 'FOTOGRAFIA']
 
 export const importExcel = async (req: Request, res: Response): Promise<Response<Object>> => {
   if (req.file?.filename === null || req.file?.filename === undefined) {

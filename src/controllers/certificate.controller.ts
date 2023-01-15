@@ -28,7 +28,6 @@ export const getById = async (req: Request, res: Response): Promise<Response<Cer
 }
 
 export const create = async (req: Request, res: Response): Promise<Response<Certificate>> => {
-  console.log(req.body)
   const body = certificatesRepository.create({ ...req.body })
 
   try {
@@ -92,7 +91,7 @@ export const removeMultiple = async (req: Request, res: Response): Promise<Respo
   }
 }
 
-const SHEET_NAMES = ['DNI', 'NOMBRES Y APELLIDOS', 'AREA O CARGO', 'CURSO', 'EMPRESA', 'LUGAR', 'MODALIDAD', '# HORAS', 'NOTA', 'FECHA INICIO', 'FECHA FIN', 'CERTIFICADO']
+const SHEET_NAMES = ['DNI', 'NOMBRES Y APELLIDOS', 'AREA O CARGO', 'CURSO', 'EMPRESA', 'MODALIDAD', '# HORAS', 'NOTA', 'FECHA', 'CERTIFICADO']
 
 export const importExcel = async (req: Request, res: Response): Promise<Response<Object>> => {
   if (req.file?.filename === null || req.file?.filename === undefined) {
@@ -103,7 +102,7 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
 
   try {
     const workbook = xlsx.readFile(filename, { type: 'binary', cellDates: true })
-    const sheet = workbook.SheetNames.find((name) => name === 'CERTIFICADOS')
+    const sheet = workbook.SheetNames.find((name) => name.toUpperCase() === 'CERTIFICADOS')
 
     if (sheet === undefined) {
       await fs.remove(filename)
@@ -125,22 +124,19 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
       Object.keys(data).forEach(key => {
         obj[key.toUpperCase()] = data[key]
       })
+      console.log(obj.FECHA)
       return {
         fullName: obj['NOMBRES Y APELLIDOS'],
         dni: String(obj.DNI),
         area: obj['AREA O CARGO'],
         course: obj.CURSO,
         company: obj.EMPRESA,
-        place: obj.LUGAR,
         modality: obj.MODALIDAD,
         duration: obj['# HORAS'],
         certification: obj.CERTIFICADO,
-        startDate: obj['FECHA INICIO'],
-        endDate: obj['FECHA FIN']
+        date: new Date(obj.FECHA)
       }
     })
-
-    console.log(certificatesInExcel)
 
     const certificates = certificatesInExcel.filter((certificateExcel, index) => {
       return certificatesInExcel.findIndex(certificate => {
