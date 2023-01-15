@@ -105,9 +105,14 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
 
   try {
     const workbook = xlsx.readFile(filename, { type: 'binary', cellDates: true })
-    const sheet = workbook.SheetNames[0]
-    const data: Object[] = xlsx.utils.sheet_to_json(workbook.Sheets[sheet])
+    const sheet = workbook.SheetNames.find((name) => name === 'FOTOCHECKS')
 
+    if (sheet === undefined) {
+      await fs.remove(filename)
+      return res.status(400).json({ message: 'El formato del archivo debe coincidir con el formato establecido' })
+    }
+
+    const data: Object[] = xlsx.utils.sheet_to_json(workbook.Sheets[sheet])
     const dataHeaders = Object.keys(data[0]).map(key => key.toUpperCase())
 
     if (!SHEET_NAMES.every(name => dataHeaders.includes(name))) {
