@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response): Promise<Response<User>
       id: user.id,
       name: user.username
     }, 'secret', {
-      expiresIn: 60 * 60 * 24
+      expiresIn: 60 * 60 * 24 * 10
     })
 
     return res.status(200).json({

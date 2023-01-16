@@ -132,9 +132,9 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
       const profileImage = `https://drive.google.com/uc?export=view&id=${imageId}`
       return {
         profile: obj['PERFIL A ACREDITAR'],
-        inductionDate: obj['FECHA DE INDUCCIÓN'],
+        inductionDate: obj['FECHA DE INDUCCION'],
         docType: obj['DOCUMENTO DE IDENTIDAD'],
-        docNum: String(obj['NÚMERO DE DOCUMENTO DE IDENTIDAD']),
+        docNum: String(obj['NUMERO DE DOCUMENTO DE IDENTIDAD']),
         name: obj.NOMBRES,
         lastName: obj.APELLIDOS,
         company: obj.EMPRESA,
