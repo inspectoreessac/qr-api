@@ -17,6 +17,9 @@ export class Certificate {
   @Column({ name: 'course', type: 'varchar' })
     course: string
 
+  @Column({ name: 'mark', type: 'int' })
+    mark: number
+
   @Column({ name: 'company', type: 'varchar' })
     company: string
 

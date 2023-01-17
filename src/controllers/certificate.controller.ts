@@ -127,6 +127,7 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
       console.log(obj.FECHA)
       return {
         fullName: obj['NOMBRES Y APELLIDOS'],
+        mark: obj.NOTA,
         dni: String(obj.DNI),
         area: obj['AREA O CARGO'],
         course: obj.CURSO,
