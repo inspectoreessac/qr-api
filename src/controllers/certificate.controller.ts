@@ -23,7 +23,15 @@ export const getById = async (req: Request, res: Response): Promise<Response<Cer
   const { id } = req.params
   const certificate = await certificatesRepository.findOne({ where: { id } })
 
-  if (certificate === null) return res.status(404).json({ message: 'Certificate not found' })
+  if (certificate === null) return res.status(404).json({ message: 'No se encontró el certificado' })
+  return res.json(certificate)
+}
+
+export const getByCod = async (req: Request, res: Response): Promise<Response<Certificate>> => {
+  const { cod } = req.params
+  const certificate = await certificatesRepository.findOne({ where: { certification: cod } })
+
+  if (certificate === null) return res.status(404).json({ message: 'No se encontró el certificado' })
   return res.json(certificate)
 }
 
@@ -45,7 +53,7 @@ export const update = async (req: Request, res: Response): Promise<Response<Cert
   const certificate = await certificatesRepository.findOne({ where: { id } })
 
   if (certificate === null) {
-    return res.status(404).json({ message: 'Certificate not found' })
+    return res.status(404).json({ message: 'No se encontró el certificado' })
   }
 
   const certificateUpdated = {
@@ -66,7 +74,7 @@ export const remove = async (req: Request, res: Response): Promise<Response<Cert
   const certificate = await certificatesRepository.findOne({ where: { id } })
 
   if (certificate === null) {
-    return res.status(404).json({ message: 'Certificate not found' })
+    return res.status(404).json({ message: 'No se encontró el certificado' })
   }
 
   try {
@@ -141,11 +149,11 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
 
     const certificates = certificatesInExcel.filter((certificateExcel, index) => {
       return certificatesInExcel.findIndex(certificate => {
-        return certificate.dni === certificateExcel.dni
+        return certificate.certification === certificateExcel.certification
       }) === index
     })
       .filter(certificateToSave => {
-        return certificatesInDatabase.find(certificate => certificate.dni === (certificateToSave.dni)) === undefined
+        return certificatesInDatabase.find(certificate => certificate.certification === certificateToSave.certification) === undefined
       })
 
     await fs.remove(filename)

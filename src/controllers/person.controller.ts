@@ -145,10 +145,10 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
     })
 
     const people = peopleExcel.filter((personExcel, index) => {
-      return peopleExcel.findIndex(person => person.docNum === personExcel.docNum) === index
+      return peopleExcel.findIndex(person => person.credential === personExcel.credential) === index
     })
       .filter(personToSave => {
-        return peopleInDatabase.find(person => person.docNum === personToSave.docNum) === undefined
+        return peopleInDatabase.find(person => person.credential === personToSave.credential) === undefined
       })
 
     await fs.remove(filename)
