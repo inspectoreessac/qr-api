@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { STATUS } from './enums/status.enum'
 
 @Entity({ name: 'certificates' })
 export class Certificate {
@@ -32,6 +33,12 @@ export class Certificate {
   @Column({ name: 'certification', type: 'varchar' })
     certification: string
 
+  @Column({ name: 'validity', type: 'int', default: 12 })
+    validity: number
+
   @Column({ name: 'start_date', type: 'datetime' })
     date: Date
+
+  @Column({ name: 'status', type: 'varchar', default: STATUS.ACTIVE })
+    status: STATUS
 }

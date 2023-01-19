@@ -99,7 +99,7 @@ export const removeMultiple = async (req: Request, res: Response): Promise<Respo
   }
 }
 
-const SHEET_NAMES = ['DNI', 'NOMBRES Y APELLIDOS', 'AREA O CARGO', 'CURSO', 'EMPRESA', 'MODALIDAD', '# HORAS', 'NOTA', 'FECHA', 'CERTIFICADO']
+const SHEET_NAMES = ['DNI', 'NOMBRES Y APELLIDOS', 'AREA O CARGO', 'CURSO', 'EMPRESA', 'MODALIDAD', '# HORAS', 'NOTA', 'FECHA', 'VIGENCIA', 'CERTIFICADO']
 
 export const importExcel = async (req: Request, res: Response): Promise<Response<Object>> => {
   if (req.file?.filename === null || req.file?.filename === undefined) {
@@ -142,6 +142,7 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
         company: obj.EMPRESA,
         modality: obj.MODALIDAD,
         duration: obj['# HORAS'],
+        validity: obj.VIGENCIA,
         certification: obj.CERTIFICADO,
         date: new Date(obj.FECHA)
       }
