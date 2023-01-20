@@ -11,7 +11,7 @@ router.get('', requireAuth, getAll)
 router.get('/:id', getById)
 router.get('/cod/:cod', getByCod)
 router.post('', requireAuth, create)
-router.put('/:id', requireAuth, update)
+router.put('/:id', update)
 router.patch('/remove-multiple', requireAuth, removeMultiple)
 router.delete('/:id', requireAuth, remove)
 
