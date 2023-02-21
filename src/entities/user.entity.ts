@@ -1,5 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import * as argon2 from 'argon2'
+import { UserRole } from './enums/role.enum'
 
 @Entity({
   name: 'users'
@@ -13,6 +14,9 @@ export class User {
 
   @Column({ length: 100, type: 'varchar' })
     password: string
+
+  @Column({ name: 'role', type: 'varchar', default: UserRole.USER })
+    role: UserRole
 
   @BeforeInsert()
   @BeforeUpdate()

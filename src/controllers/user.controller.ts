@@ -32,7 +32,8 @@ export const login = async (req: Request, res: Response): Promise<Response<User>
       token,
       user: {
         id: user.id,
-        username: user.username
+        username: user.username,
+        role: user.role
       }
     })
   } catch (error) {
@@ -55,14 +56,14 @@ export const currentUser = async (req: Request, res: Response): Promise<Response
 }
 
 export const register = async (req: Request, res: Response): Promise<Response<User>> => {
-  const { username, password } = req.body
+  const { username, password, role } = req.body
   const existingUser = await usersRepository.findOne({ where: { username } })
 
   if (existingUser !== null) {
     return res.status(400).json({ message: 'User already exists' })
   }
 
-  const user = usersRepository.create({ username, password })
+  const user = usersRepository.create({ username, password, role })
 
   try {
     const newUser = await usersRepository.save(user)
