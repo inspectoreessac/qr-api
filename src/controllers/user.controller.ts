@@ -55,6 +55,27 @@ export const currentUser = async (req: Request, res: Response): Promise<Response
   })
 }
 
+export const update = async (req: Request, res: Response): Promise<Response<User>> => {
+  const { id } = req.params
+
+  const user = await usersRepository.findOne({ where: { id } })
+
+  if (user === null) {
+    return res.status(404).json({ message: 'No se encontró el usuario' })
+  }
+
+  const userUpdated = {
+    ...user,
+    ...req.body
+  }
+
+  try {
+    return res.json(await usersRepository.save(userUpdated))
+  } catch (error) {
+    return res.status(500).json({ message: getErrorMessage(error) })
+  }
+}
+
 export const register = async (req: Request, res: Response): Promise<Response<User>> => {
   const { username, password, role } = req.body
   const existingUser = await usersRepository.findOne({ where: { username } })
