@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import AppDataSource from '../db'
 import { User } from '../entities/user.entity'
 import { getErrorMessage } from '../helpers/error.helper'
+import * as argon2 from 'argon2'
 
 const usersRepository = AppDataSource.getRepository(User)
 
@@ -62,6 +63,10 @@ export const update = async (req: Request, res: Response): Promise<Response<User
 
   if (user === null) {
     return res.status(404).json({ message: 'No se encontró el usuario' })
+  }
+
+  if (Object.keys(req.body).includes('password')) {
+    req.body.password = await argon2.hash(req.body.password)
   }
 
   const userUpdated = {
