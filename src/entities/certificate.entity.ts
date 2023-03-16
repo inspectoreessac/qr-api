@@ -36,8 +36,8 @@ export class Certificate {
   @Column({ name: 'validity', type: 'int', default: 12 })
     validity: number
 
-  @Column({ name: 'start_date', type: 'datetime' })
-    date: Date
+  @Column({ name: 'start_date', type: 'varchar' })
+    date: string
 
   @Column({ name: 'status', type: 'varchar', default: STATUS.ACTIVE })
     status: STATUS

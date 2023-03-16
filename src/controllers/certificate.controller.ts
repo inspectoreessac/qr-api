@@ -132,7 +132,8 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
       Object.keys(data).forEach(key => {
         obj[key.toUpperCase()] = data[key]
       })
-      console.log(obj.FECHA)
+
+      const date = obj.FECHA.split(' ').filter((d: string) => d.trim().length > 0).join(', ')
       return {
         fullName: obj['NOMBRES Y APELLIDOS'],
         mark: obj.NOTA,
@@ -144,7 +145,7 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
         duration: obj['# HORAS'],
         validity: obj.VIGENCIA,
         certification: obj.CERTIFICADO,
-        date: new Date(obj.FECHA)
+        date
       }
     })
 
