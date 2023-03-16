@@ -132,7 +132,6 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
       Object.keys(data).forEach(key => {
         obj[key.toUpperCase()] = data[key]
       })
-
       const date = obj.FECHA.split(' ').filter((d: string) => d.trim().length > 0).join(', ')
       return {
         fullName: obj['NOMBRES Y APELLIDOS'],
@@ -158,8 +157,10 @@ export const importExcel = async (req: Request, res: Response): Promise<Response
         return certificatesInDatabase.find(certificate => certificate.certification === certificateToSave.certification) === undefined
       })
 
+    const certificatesWithDate = certificates.filter(certificate => certificate.date.trim().length > 0)
+
     await fs.remove(filename)
-    return res.status(200).json(await certificatesRepository.save(certificates))
+    return res.status(200).json(await certificatesRepository.save(certificatesWithDate))
   } catch (error) {
     await fs.remove(filename)
     return res.status(500).json({ message: getErrorMessage(error) })
